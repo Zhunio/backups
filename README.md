@@ -11,22 +11,13 @@ Simple backups to an S3 bucket.
 
 ## 🚀 Getting Started
 
-- 📦 `/archive/*` creates dated tarballs.
-- 🔄 `/sync/*` copies files directly to S3.
-
-Define each backup as a Docker volume:
+Define each backup path in docker compose volumes section: {source}:{target}:ro
 
 ```yaml
 volumes:
-  - /opt/docker/vaultwarden/data:/archive/vaultwarden:ro
-  - /mnt/storage/immich:/sync/immich:ro
-```
-
-These create:
-
-```text
-s3://backups/vaultwarden/YYYY-MM-DD.tar.gz
-s3://backups/immich/
+  - /data/coolify/backups/databases/root-team-0/tax-report-mysql-sc4mzxajrw40ce62k4neogvn:/archive/tax-report-mysql:ro
+  - /data/coolify/backups/databases/root-team-0/time-tracking-postgres-onniddcgq2o44zz3r6hkvroy:/archive/time-tracking-postgres:ro
+  - /opt/docker/vaultwarden/data:/archive/vaultwarden-data:ro
 ```
 
 ## ⏰ Schedule
