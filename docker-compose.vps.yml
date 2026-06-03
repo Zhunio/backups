@@ -1,0 +1,13 @@
+services:
+  backups:
+    build: .
+    restart: unless-stopped
+
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:?AWS_ACCESS_KEY_ID is required}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:?AWS_SECRET_ACCESS_KEY is required}
+
+    volumes:
+      - /data/coolify/backups/databases/root-team-0/tax-report-mysql-sc4mzxajrw40ce62k4neogvn:/archive/tax-report-mysql:ro
+      - /data/coolify/backups/databases/root-team-0/time-tracking-postgres-onniddcgq2o44zz3r6hkvroy:/archive/time-tracking-postgres:ro
+      - /opt/docker/vaultwarden/data:/archive/vaultwarden-data:ro
