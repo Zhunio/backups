@@ -4,21 +4,24 @@ Simple backups to an S3 bucket.
 
 ## ✨ Features
 
-- 📦 Archive directories into dated tarballs.
-- 🔄 Sync large directories directly to S3.
+- 📦 Compress directories into dated tarballs.
+- 🔄 Sync directories directly to S3.
 - 🪣 Store backups in an S3-compatible bucket.
 - 🕒 Run automatically with cron.
 
 ## 🚀 Getting Started
 
-Define each backup path in docker compose volumes section: {source}:{target}:ro
+Add each backup path to the docker compose `volumes` section:
 
 ```yaml
 volumes:
-  - /data/coolify/backups/databases/root-team-0/tax-report-mysql-sc4mzxajrw40ce62k4neogvn:/archive/tax-report-mysql:ro
-  - /data/coolify/backups/databases/root-team-0/time-tracking-postgres-onniddcgq2o44zz3r6hkvroy:/archive/time-tracking-postgres:ro
-  - /opt/docker/vaultwarden/data:/archive/vaultwarden-data:ro
+  - {source}:{target}:ro
 ```
+
+| Source          | Target            | Mode      | Behavior                         |
+| --------------- | ----------------- | --------- | -------------------------------- |
+| /data/project-1 | `/archive/{name}` | `archive` | Creates dated tarballs.          |
+| /data/project-2 | `/sync/{name}`    | `sync`    | Mirrors large directories to S3. |
 
 ## ⏰ Schedule
 
