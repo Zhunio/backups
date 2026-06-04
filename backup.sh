@@ -4,6 +4,7 @@ set -o pipefail
 shopt -s nullglob
 
 FAILED=0
+mkdir -p /logs && exec > >(tee -a /logs/backups.log) 2> >(tee -a /logs/backups.log >&2)
 
 s3() {
   local mode="$1"

@@ -38,3 +38,13 @@ In Coolify, open the deployed `backups` service terminal and run:
 ```bash
 /app/backup
 ```
+
+## Logs
+
+Backup history is persisted on the host at `/opt/backups/logs/backups.log`.
+
+From the service terminal:
+
+```bash
+tail -n 100 /logs/backups.log
+```

@@ -8,4 +8,5 @@ services:
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:?AWS_SECRET_ACCESS_KEY is required}
 
     volumes:
+      - /opt/backups/logs:/logs
       - /mnt/storage/immich:/sync/immich:ro
