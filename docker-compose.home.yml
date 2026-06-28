@@ -10,3 +10,6 @@ services:
     volumes:
       - /opt/backups/logs:/logs
       - /mnt/storage/immich:/sync/immich:ro
+
+      # Restore target, writable
+      - /mnt/storage/immich-replica:/restore/immich
