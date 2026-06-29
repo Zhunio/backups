@@ -1,15 +1,13 @@
 services:
-  backups:
+  backup-home:
     build: .
     restart: unless-stopped
 
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:?AWS_ACCESS_KEY_ID is required}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:?AWS_SECRET_ACCESS_KEY is required}
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD:?RESTIC_PASSWORD is required}
 
     volumes:
       - /opt/backups/logs:/logs
-      - /mnt/storage/immich:/sync/immich:ro
-
-      # Restore target, writable
-      - /mnt/storage/immich-replica:/restore/immich
+      - /mnt/storage/immich:/sources/immich:ro

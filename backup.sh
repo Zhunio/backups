@@ -4,35 +4,44 @@ set -o pipefail
 shopt -s nullglob
 
 FAILED=0
-mkdir -p /logs && exec > >(tee -a /logs/backups.log) 2> >(tee -a /logs/backups.log >&2)
 
-s3() {
-  local mode="$1"
-  local backup="$2"
-  local target
+mkdir -p /logs
+exec > >(tee -a /logs/backups.log) 2> >(tee -a /logs/backups.log >&2)
 
-  if [ "$mode" = "archive" ]; then
-    target="s3://backups/${backup##*/}/$(date +%F).tar.gz"
-    tar -C "$backup" -czf - . | aws s3 cp - "$target" --endpoint-url "https://s3.zhunio.org" --only-show-errors
-  else
-    target="s3://backups/${backup##*/}/"
-    aws s3 sync "$backup" "$target" --endpoint-url "https://s3.zhunio.org" --only-show-errors
+log() {
+  echo "$(date '+%m/%d/%Y %I:%M %p') $*"
+}
+
+backup() {
+  local path="$1"
+  local name="${path##*/}"
+
+  local url="https://s3.zhunio.org"
+  local bucket="backups"
+  local repository="s3:${url}/${bucket}/${name}"
+
+  if ! restic -r "$repository" snapshots >/dev/null 2>&1; then
+    restic -r "$repository" init
   fi
 
-  if [ "$?" -eq 0 ]; then
-    echo "[$(date -Is)] Backup succeeded: ${backup} -> ${target}"
+  if restic -r "$repository" backup "$path"; then
+    log "[${name}] Backup finished"
   else
-    echo "[$(date -Is)] Backup failed: ${backup} -> ${target}" >&2
+    log "[${name}] Backup failed"
+    FAILED=1
+    return
+  fi
+
+  if restic -r "$repository" forget --keep-daily 7 --prune; then
+    log "[${name}] Prune finished"
+  else
+    log "[${name}] Prune failed"
     FAILED=1
   fi
 }
 
-for backup in /archive/*; do
-  s3 archive "$backup"
-done
-
-for backup in /sync/*; do
-  s3 sync "$backup"
+for path in /sources/*; do
+  backup "$path"
 done
 
 exit "$FAILED"

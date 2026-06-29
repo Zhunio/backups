@@ -1,33 +1,60 @@
 # ☁️ Backups
 
-Simple backups to an S3 bucket.
+Simple restic backups to an S3-compatible bucket.
 
 ## ✨ Features
 
-- 📦 Compress directories into dated tarballs.
-- 🔄 Sync directories directly to S3.
+- 📦 Back up mounted source directories with restic.
+- 🔐 Encrypt backups before uploading to S3.
 - 🪣 Store backups in an S3-compatible bucket.
-- 🕒 Run automatically with cron.
+- 🕒 Keep the last 7 daily snapshots.
+- 🧹 Prune old snapshots automatically.
+- ⏰ Run automatically with cron.
+
+## 🚀 Coolify
+
+Deploy this repository as a Docker Compose service.
+
+- 🔐 Repository Type: `Private Repository (with GitHub App)`
+- 🐙 GitHub App: `zhunio-coolify`
+- 🌿 Branch: `main`
+- 🐳 Build Pack: `Docker Compose`
+- ⏰ Schedule: `0 1 * * *`
+- 📂 Data mounts:
+  - `{source}:/sources/{name}:ro`
+- 🔑 Environment variables:
+  - `AWS_ACCESS_KEY_ID`
+  - `AWS_SECRET_ACCESS_KEY`
+  - `RESTIC_PASSWORD`
 
 ## 🚀 Getting Started
 
-Add each backup path to the docker compose `volumes` section:
+Add each backup path to the Docker Compose `volumes` section:
 
 ```yaml
 volumes:
-  - {source}:{target}:ro
+  - {source}:/sources/{name}:ro
 ```
 
-| Source          | Target            | Mode      | Behavior                         |
-| --------------- | ----------------- | --------- | -------------------------------- |
-| /data/project-1 | `/archive/{name}` | `archive` | Creates dated tarballs.          |
-| /data/project-2 | `/sync/{name}`    | `sync`    | Mirrors large directories to S3. |
+| Source            | Target               | Behavior                            |
+| ----------------- | -------------------- | ----------------------------------- |
+| `/data/project-1` | `/sources/project-1` | Creates encrypted restic snapshots. |
+| `/data/project-2` | `/sources/project-2` | Creates encrypted restic snapshots. |
+
+Each source directory becomes its own restic repository:
+
+```text
+s3://backups/project-1
+s3://backups/project-2
+```
 
 ## ⏰ Schedule
 
-Backups run daily at **01:00**.
+Backups are scheduled using the `CRON` environment variable.
 
-```cron
+Default:
+
+```text
 0 1 * * *
 ```
 
@@ -39,12 +66,56 @@ In Coolify, open the deployed `backups` service terminal and run:
 /app/backup
 ```
 
-## Logs
+## 📜 Logs
 
-Backup history is persisted on the host at `/opt/backups/logs/backups.log`.
+Backup history is persisted on the host at:
+
+```text
+/opt/backups/logs/backups.log
+```
 
 From the service terminal:
 
 ```bash
 tail -n 100 /logs/backups.log
+```
+
+Example:
+
+```text
+06/28/2026 10:39 PM [tax-report-mysql] Backup finished
+06/28/2026 10:39 PM [tax-report-mysql] Prune finished
+06/28/2026 10:40 PM [time-tracking-postgres] Backup finished
+06/28/2026 10:40 PM [time-tracking-postgres] Prune finished
+06/28/2026 10:41 PM [vaultwarden-data] Backup failed
+```
+
+## ♻️ Retention
+
+Each repository keeps the last **7 daily snapshots**:
+
+```bash
+restic forget --keep-daily 7 --prune
+```
+
+## 🔎 View Snapshots
+
+List snapshots for a backup source:
+
+```bash
+restic -r s3:https://s3.zhunio.org/backups/{name} snapshots
+```
+
+Example:
+
+```bash
+restic -r s3:https://s3.zhunio.org/backups/vaultwarden-data snapshots
+```
+
+## 🔁 Restore
+
+Restore the latest snapshot:
+
+```bash
+restic -r s3:https://s3.zhunio.org/backups/{name} restore latest --target /restore
 ```
