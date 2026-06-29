@@ -14,3 +14,5 @@ services:
       - /data/coolify/backups/databases/root-team-0/time-tracking-postgres-onniddcgq2o44zz3r6hkvroy:/sources/time-tracking-postgres:ro
       - /opt/docker/vaultwarden/data:/sources/vaultwarden:ro
 
+      - /opt/vaultwarden-replica:/restore/vaultwarden
+
