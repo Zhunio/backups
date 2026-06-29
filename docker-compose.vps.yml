@@ -18,5 +18,6 @@ services:
       - /opt/invoiceshelf:/sources/invoiceshelf:ro
 
       # - /opt/vaultwarden-replica:/restore
-      - /opt/invoiceshelf-replica:/restore
+      # - /opt/invoiceshelf-replica:/restore
+      - /opt/tax-report-api:/restore
 
