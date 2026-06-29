@@ -24,7 +24,10 @@ backup() {
     restic -r "$repository" init
   fi
 
-  if restic -r "$repository" backup "$path"; then
+  if (
+    cd "$path" &&
+    restic -r "$repository" backup .
+  ); then
     log "[${name}] Backup finished"
   else
     log "[${name}] Backup failed"
