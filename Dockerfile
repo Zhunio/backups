@@ -3,7 +3,7 @@ FROM alpine:latest
 RUN apk add --no-cache bash restic tzdata
 
 ENV TZ=America/New_York
-ENV CRON="0 1 * * *"
+ENV CRON="0 2 * * *"
 
 COPY backup.sh /app/backup
 
