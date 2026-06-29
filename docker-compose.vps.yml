@@ -17,6 +17,6 @@ services:
       - /opt/vaultwarden:/sources/vaultwarden:ro
       - /opt/invoiceshelf:/sources/invoiceshelf:ro
 
-      - /opt/vaultwarden-replica:/restore
+      # - /opt/vaultwarden-replica:/restore
       - /opt/invoiceshelf-replica:/restore
 
