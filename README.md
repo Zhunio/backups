@@ -109,13 +109,13 @@ Run a backup from the service terminal:
 
 Backup history is stored at:
 
-```text id="7ppnd2"
+```text
 /opt/backups/logs/backups.log
 ```
 
 Example:
 
-```text id="u0ltx0"
+```text
 06/28/2026 10:39 PM [tax-report-mysql] Backup finished
 06/28/2026 10:39 PM [tax-report-mysql] Prune finished
 06/28/2026 10:40 PM [time-tracking-postgres] Backup finished
