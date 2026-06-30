@@ -73,25 +73,6 @@ Run a backup from the service terminal:
 /app/backup
 ```
 
-## 📜 Logs
-
-Backup history is persisted on the host at:
-
-```text
-/opt/backups/logs/backups.log
-```
-
-Example:
-
-```text
-06/28/2026 10:39 PM [tax-report-mysql] Backup finished
-06/28/2026 10:39 PM [tax-report-mysql] Prune finished
-06/28/2026 10:40 PM [time-tracking-postgres] Backup finished
-06/28/2026 10:40 PM [time-tracking-postgres] Prune finished
-06/28/2026 10:41 PM [vaultwarden-data] Backup failed
-
-```
-
 ## 🔁 Restore
 
 View available snapshots:
@@ -114,4 +95,23 @@ restic -r s3:https://s3.zhunio.org/backups/vaultwarden restore latest --target /
 restic -r s3:https://s3.zhunio.org/backups/invoiceshelf restore latest --target /sources/invoiceshelf
 
 restic -r s3:https://s3.zhunio.org/backups/tax-report-api restore latest --target /sources/tax-report-api
+```
+
+## 📜 Logs
+
+Backup history is persisted on the host at:
+
+```text
+/opt/backups/logs/backups.log
+```
+
+Example:
+
+```text
+06/28/2026 10:39 PM [tax-report-mysql] Backup finished
+06/28/2026 10:39 PM [tax-report-mysql] Prune finished
+06/28/2026 10:40 PM [time-tracking-postgres] Backup finished
+06/28/2026 10:40 PM [time-tracking-postgres] Prune finished
+06/28/2026 10:41 PM [vaultwarden-data] Backup failed
+
 ```
