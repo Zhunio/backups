@@ -103,6 +103,8 @@ Run a backup from the service terminal:
    restic -r s3:https://s3.zhunio.org/backups/time-tacking-api restore latest --target /sources/time-tracking-api
 
    restic -r s3:https://s3.zhunio.org/backups/termix restore latest --target /sources/termix
+
+   restic -r s3:https://s3.zhunio.org/backups/homeassistant restore latest --target /sources/homeassistant
    ```
 
 4. 🔒 Add `:ro` back to the volume and recreate the service.
