@@ -88,34 +88,26 @@ Example:
 06/28/2026 10:40 PM [time-tracking-postgres] Backup finished
 06/28/2026 10:40 PM [time-tracking-postgres] Prune finished
 06/28/2026 10:41 PM [vaultwarden-data] Backup failed
+
 ```
 
-## ♻️ Retention
+## 🔁 Restore
 
-Each repository keeps the last **7 daily snapshots**:
-
-```bash
-restic forget --keep-daily 7 --prune
-```
-
-## 🔎 View Snapshots
-
-List snapshots for a backup source:
+View available snapshots:
 
 ```bash
 restic -r s3:https://s3.zhunio.org/backups/{name} snapshots
 ```
 
-Example:
+Restore a specific snapshot:
 
 ```bash
-restic -r s3:https://s3.zhunio.org/backups/vaultwarden-data snapshots
-```
+restic -r s3:https://s3.zhunio.org/backups/{name} restore <snapshot-id> --target /sources/{name}
 
-## 🔁 Restore
+# Examples
+restic -r s3:https://s3.zhunio.org/backups/vaultwarden restore latest --target /sources/vaultwarden
 
-Restore the latest snapshot:
+restic -r s3:https://s3.zhunio.org/backups/invoiceshelf restore latest --target /sources/invoiceshelf
 
-```bash
-restic -r s3:https://s3.zhunio.org/backups/{name} restore latest --target /restore
+restic -r s3:https://s3.zhunio.org/backups/tax-report-api restore latest --target /sources/tax-report-api
 ```
