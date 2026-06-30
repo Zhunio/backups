@@ -75,31 +75,31 @@ Run a backup from the service terminal:
 
 ## 🔁 Restore
 
-Temporarily remove `:ro` from the volume being restored and recreate the service.
+1. ✏️ Temporarily remove `:ro` from the volume being restored and recreate the service.
 
-View available snapshots:
+2. 🔎 View available snapshots.
 
-```bash
-restic -r s3:https://s3.zhunio.org/backups/{name} snapshots
-```
+   ```bash
+   restic -r s3:https://s3.zhunio.org/backups/{name} snapshots
+   ```
 
-Restore a snapshot:
+3. ☁️ Restore a snapshot.
 
-```bash
-restic -r s3:https://s3.zhunio.org/backups/{name} restore <snapshot-id> --target /sources/{name}
-```
+   ```bash
+   restic -r s3:https://s3.zhunio.org/backups/{name} restore <snapshot-id> --target /sources/{name}
+   ```
 
-Example:
+   Example:
 
-```bash
-restic -r s3:https://s3.zhunio.org/backups/vaultwarden restore latest --target /sources/vaultwarden
+   ```bash
+   restic -r s3:https://s3.zhunio.org/backups/vaultwarden restore latest --target /sources/vaultwarden
 
-restic -r s3:https://s3.zhunio.org/backups/invoiceshelf restore latest --target /sources/invoiceshelf
+   restic -r s3:https://s3.zhunio.org/backups/invoiceshelf restore latest --target /sources/invoiceshelf
 
-restic -r s3:https://s3.zhunio.org/backups/tax-report-api restore latest --target /sources/tax-report-api
-```
+   restic -r s3:https://s3.zhunio.org/backups/tax-report-api restore latest --target /sources/tax-report-api
+   ```
 
-After the restore completes, add `:ro` back to the volume and recreate the service.
+4. 🔒 Add `:ro` back to the volume and recreate the service.
 
 ## 📜 Logs
 
