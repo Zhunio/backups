@@ -75,13 +75,15 @@ Run a backup from the service terminal:
 
 ## 🔁 Restore
 
+Temporarily remove `:ro` from the volume being restored and recreate the service.
+
 View available snapshots:
 
 ```bash
 restic -r s3:https://s3.zhunio.org/backups/{name} snapshots
 ```
 
-Restore a specific snapshot:
+Restore a snapshot:
 
 ```bash
 restic -r s3:https://s3.zhunio.org/backups/{name} restore <snapshot-id> --target /sources/{name}
@@ -97,21 +99,22 @@ restic -r s3:https://s3.zhunio.org/backups/invoiceshelf restore latest --target 
 restic -r s3:https://s3.zhunio.org/backups/tax-report-api restore latest --target /sources/tax-report-api
 ```
 
+After the restore completes, add `:ro` back to the volume and recreate the service.
+
 ## 📜 Logs
 
-Backup history is persisted on the host at:
+Backup history is stored at:
 
-```text
+```text id="7ppnd2"
 /opt/backups/logs/backups.log
 ```
 
 Example:
 
-```text
+```text id="u0ltx0"
 06/28/2026 10:39 PM [tax-report-mysql] Backup finished
 06/28/2026 10:39 PM [tax-report-mysql] Prune finished
 06/28/2026 10:40 PM [time-tracking-postgres] Backup finished
 06/28/2026 10:40 PM [time-tracking-postgres] Prune finished
 06/28/2026 10:41 PM [vaultwarden-data] Backup failed
-
 ```
