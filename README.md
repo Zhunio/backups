@@ -38,7 +38,7 @@ volumes:
   - {source}:/sources/{name}:ro
 ```
 
-Examples
+Example:
 
 ```yaml
 volumes:
@@ -104,8 +104,11 @@ Restore a specific snapshot:
 
 ```bash
 restic -r s3:https://s3.zhunio.org/backups/{name} restore <snapshot-id> --target /sources/{name}
+```
 
-# Examples
+Example:
+
+```bash
 restic -r s3:https://s3.zhunio.org/backups/vaultwarden restore latest --target /sources/vaultwarden
 
 restic -r s3:https://s3.zhunio.org/backups/invoiceshelf restore latest --target /sources/invoiceshelf
