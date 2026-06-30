@@ -11,7 +11,6 @@ services:
     volumes:
       - /opt/backups/logs:/logs
 
-      - /data/coolify/backups/databases/root-team-0/tax-report-mysql-sc4mzxajrw40ce62k4neogvn:/sources/tax-report-mysql:ro
       - /data/coolify/backups/databases/root-team-0/time-tracking-postgres-onniddcgq2o44zz3r6hkvroy:/sources/time-tracking-postgres:ro
 
       - /opt/vaultwarden:/sources/vaultwarden:ro
@@ -19,5 +18,5 @@ services:
 
       # - /opt/vaultwarden-replica:/restore
       # - /opt/invoiceshelf-replica:/restore
-      - /opt/tax-report-api:/restore
+      # - /opt/tax-report-api:/restore
 
