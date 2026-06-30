@@ -15,5 +15,5 @@ services:
 
       - /opt/vaultwarden:/sources/vaultwarden:ro
       - /opt/invoiceshelf:/sources/invoiceshelf:ro
-      - /opt/tax-report-api:/sources/tax-report-api
+      - /opt/tax-report-api:/sources/tax-report-api:ro
 
