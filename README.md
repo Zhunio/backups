@@ -45,6 +45,7 @@ volumes:
   - /opt/vaultwarden:/sources/vaultwarden:ro
   - /opt/invoiceshelf:/sources/invoiceshelf:ro
   - /opt/tax-report-api:/sources/tax-report-api:ro
+  - /opt/time-tracking-api:/sources/time-tracking-api:ro
 ```
 
 Each mounted source becomes its own Restic repository:
@@ -53,6 +54,7 @@ Each mounted source becomes its own Restic repository:
 s3://backups/vaultwarden
 s3://backups/invoiceshelf
 s3://backups/tax-report-api
+s3://backups/time-tracking-api
 ```
 
 ### ⏰ Schedule
@@ -97,6 +99,8 @@ Run a backup from the service terminal:
    restic -r s3:https://s3.zhunio.org/backups/invoiceshelf restore latest --target /sources/invoiceshelf
 
    restic -r s3:https://s3.zhunio.org/backups/tax-report-api restore latest --target /sources/tax-report-api
+
+   restic -r s3:https://s3.zhunio.org/backups/time-tacking-api restore latest --target /sources/time-tracking-api
    ```
 
 4. 🔒 Add `:ro` back to the volume and recreate the service.

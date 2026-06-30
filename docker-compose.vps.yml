@@ -11,9 +11,8 @@ services:
     volumes:
       - /opt/backups/logs:/logs
 
-      - /data/coolify/backups/databases/root-team-0/time-tracking-postgres-onniddcgq2o44zz3r6hkvroy:/sources/time-tracking-postgres:ro
-
       - /opt/vaultwarden:/sources/vaultwarden:ro
       - /opt/invoiceshelf:/sources/invoiceshelf:ro
       - /opt/tax-report-api:/sources/tax-report-api:ro
+      - /opt/time-tracking-api:/sources/time-tracking-api:ro
 
