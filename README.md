@@ -27,40 +27,47 @@ Deploy this repository as a Docker Compose service.
   - `AWS_SECRET_ACCESS_KEY`
   - `RESTIC_PASSWORD`
 
-## 🚀 Getting Started
+## ⚙️ Backup Configuration
 
-Add each backup path to the Docker Compose `volumes` section:
+### 📂 Volumes
+
+Add each directory to back up as a read-only mount under `/sources`.
 
 ```yaml
 volumes:
   - {source}:/sources/{name}:ro
 ```
 
-| Source            | Target               | Behavior                            |
-| ----------------- | -------------------- | ----------------------------------- |
-| `/data/project-1` | `/sources/project-1` | Creates encrypted restic snapshots. |
-| `/data/project-2` | `/sources/project-2` | Creates encrypted restic snapshots. |
+Examples
 
-Each source directory becomes its own restic repository:
-
-```text
-s3://backups/project-1
-s3://backups/project-2
+```yaml
+volumes:
+  - /opt/vaultwarden:/sources/vaultwarden:ro
+  - /opt/invoiceshelf:/sources/invoiceshelf:ro
+  - /opt/tax-report-api:/sources/tax-report-api:ro
 ```
 
-## ⏰ Schedule
+Each mounted source becomes its own Restic repository:
 
-Backups are scheduled using the `CRON` environment variable.
+```text
+s3://backups/vaultwarden
+s3://backups/invoiceshelf
+s3://backups/tax-report-api
+```
+
+### ⏰ Schedule
+
+Configure the backup schedule using the `CRON` environment variable.
 
 Default:
 
-```text
+```tex
 0 1 * * *
 ```
 
-## ▶️ Run Manually
+### ▶️ Run Manually
 
-In Coolify, open the deployed `backups` service terminal and run:
+Run a backup from the service terminal:
 
 ```bash
 /app/backup
@@ -72,12 +79,6 @@ Backup history is persisted on the host at:
 
 ```text
 /opt/backups/logs/backups.log
-```
-
-From the service terminal:
-
-```bash
-tail -n 100 /logs/backups.log
 ```
 
 Example:
