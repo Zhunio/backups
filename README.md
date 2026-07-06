@@ -29,26 +29,31 @@ Deploy this repository as a Docker Compose service.
 
 ## ⚙️ Backup Configuration
 
-### 📂 Volumes
+Configure backup sources using Docker volume mounts.
 
-Add each directory to back up as a read-only mount under `/sources`.
+### 📂 Volume Mount Format
 
-```yaml
-volumes:
-  - {source}:/sources/{name}:ro
+- 🏠 **host-path** — Directory on the host to back up.
+- 📂 **name** — Name of the backup source and Restic repository.
+- 🔒 **:ro** — Mount the directory as read-only.
+
+```text
+{host-path}:/sources/{name}:ro
 ```
 
 Example:
 
 ```yaml
-volumes:
-  - /opt/vaultwarden:/sources/vaultwarden:ro
-  - /opt/invoiceshelf:/sources/invoiceshelf:ro
-  - /opt/tax-report-api:/sources/tax-report-api:ro
-  - /opt/time-tracking-api:/sources/time-tracking-api:ro
+services:
+  backups:
+    volumes:
+      - /opt/vaultwarden:/sources/vaultwarden:ro
+      - /opt/invoiceshelf:/sources/invoiceshelf:ro
+      - /opt/tax-report-api:/sources/tax-report-api:ro
+      - /opt/time-tracking-api:/sources/time-tracking-api:ro
 ```
 
-Each mounted source becomes its own Restic repository:
+Each mounted source is backed up to its own Restic repository in the configured S3 bucket:
 
 ```text
 s3://backups/vaultwarden
@@ -56,6 +61,8 @@ s3://backups/invoiceshelf
 s3://backups/tax-report-api
 s3://backups/time-tracking-api
 ```
+
+This allows each backup source to maintain its own snapshots, retention policy, and restore process while sharing the same S3 bucket.
 
 ### ⏰ Schedule
 
