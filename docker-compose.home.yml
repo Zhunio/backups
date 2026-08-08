@@ -11,6 +11,5 @@ services:
     volumes:
       - /opt/backups/logs:/logs
 
-      - /opt/termix:/sources/termix:ro
       - /opt/homeassistant:/sources/homeassistant:ro
       - /mnt/storage/immich:/sources/immich:ro
