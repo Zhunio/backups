@@ -12,8 +12,8 @@ services:
       - /opt/backups/logs:/logs
 
       - /opt/actual-budget:/sources/actual-budget:ro
-      - /opt/vaultwarden:/sources/vaultwarden:ro
       - /opt/invoiceshelf:/sources/invoiceshelf:ro
+      - /opt/vaultwarden:/sources/vaultwarden:ro
       - /opt/tax-report-api:/sources/tax-report-api
       - /opt/time-tracking-api:/sources/time-tracking-api:ro
 
