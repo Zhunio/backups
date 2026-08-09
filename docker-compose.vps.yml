@@ -13,6 +13,7 @@ services:
 
       - /opt/actual-budget:/sources/actual-budget:ro
       - /opt/invoiceshelf:/sources/invoiceshelf:ro
+      - /opt/meshcentral:/sources/meshcentral:ro
       - /opt/vaultwarden:/sources/vaultwarden:ro
       - /opt/tax-report-api:/sources/tax-report-api
       - /opt/time-tracking-api:/sources/time-tracking-api:ro
